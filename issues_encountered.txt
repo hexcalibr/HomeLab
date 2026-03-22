@@ -1,0 +1,18 @@
+This file tracks any issues I encountered while setting up my homelab. I will aim to give a brief summary of the issue (like one would for a support ticket) and then point form of my process to hunt down the cause, along with any fixes I implemented to resolve the issue.
+
+
+Compute-host was not reachable on network.
+ - Compute-host could ping gateway
+ - Laptop could ping gateway
+ - Compute-host coud ping laptop
+ - Laptop could not ping compute-host
+ - Sent 1 packet broadcast on 192.168.0.255, got response from gateway and one other device (expected)
+ - Checked nmap - found that there was no record of expected compute-host ip address (192.168.86.26) but saw correct number of connected devices
+ - Checked router - IP table was blank. Expect to see this populated with all authenticated devices. #investigate later
+ - Checked /etc/hosts for hostname mapping. Mapping as expected.
+ - Realised that I'd unplugged NEST mesh devices, ISP subnet was different. ISP router is set to use 192.168.0.0/24, NEST was 192.168.86.0/24 
+ - Updated router to reserve appropriate IP for server compute-host
+ - Updated /etc/hosts to map hostname to new reserved IP address
+ - Bounced WLAN NIC on compute-host
+ - Confirmed compute-host now reachable on network
+ - Updated NMAP on laptop (source of truth for network-connected devices singe IP table on router blank)
